@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Sign Up</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="signUpBox">
+        <h1 id="title">Sign Up</h1>
+        <div class="decLine"></div>
+        <form>
+          <div class="group">
+            <form action="">
+              <div class="field">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter Name"
+                  class="signInputs"
+                  id="uName"
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter Email"
+                  class="signInputs"
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter Password"
+                  class="signInputs"
+                />
+              </div>
+              <div class="btns">
+                <input
+                  type="button"
+                  value="Sign In"
+                  id="signInBtn"
+                  class="btn1"
+                />
+                <input
+                  type="button"
+                  value="Sign Up"
+                  id="signUpBtn"
+                  class="btn1"
+                />
+              </div>
+            </form>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    var uName = document.getElementById("uName");
+    var signIn = document.getElementById("signInBtn");
+    var signUp = document.getElementById("signUpBtn");
+    var title = document.getElementById("title");
+
+    signIn.onclick = function () {
+      title.textContent = "Sign In";
+      uName.style.display = "none";
+    };
+
+    signUp.onclick = function () {
+      title.textContent = "Sign Up";
+      uName.style.display = "block";
+    };
+  </script>
+</html>
