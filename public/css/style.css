@@ -222,3 +222,17 @@ For tooltip and tooltiptext styling refered to:
   width: 100%;
   font-size: 2em;
 }
+.btn404 {
+  width: 110px;
+  height: 40px;
+  margin-top: 20px;
+  background-color: #98deec;
+  border-radius: 5px;
+}
+.btn404:hover {
+  background-color: #00509d;
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: bolder;
+  cursor: pointer;
+}
