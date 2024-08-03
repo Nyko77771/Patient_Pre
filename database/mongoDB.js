@@ -33,3 +33,5 @@ async function insertData() {
 }
 
 insertData();
+
+// Queries
