@@ -150,7 +150,7 @@ For tooltip and tooltiptext styling refered to:
   text-align: center;
   position: absolute;
   left: 50%;
-  transform: translateX(-70%) translateY(100%);
+  transform: translateX(-85%) translateY(95%);
 }
 .tooltip:hover .tooltiptext {
   visibility: visible;
