@@ -206,3 +206,19 @@ For tooltip and tooltiptext styling refered to:
   font-size: 1.5em;
   list-style-type: decimal;
 }
+
+/* 404 Styling */
+.main404 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+.h1404 {
+  width: 100%;
+  font-size: 3em;
+}
+.h2404 {
+  width: 100%;
+  font-size: 2em;
+}
