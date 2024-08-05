@@ -13,7 +13,7 @@
     ></script>
 
     <!-- My Script -->
-    <script src="./../javascript/script.js"></script>
+    <script src="./../javascript/prescriptions.js"></script>
   </head>
   <body>
     <div class="container">
@@ -22,11 +22,16 @@
           <ul>
             <li>
               <div class="tooltip">
-                <input type="button" value="Log-out" class="logOut" />
+                <input
+                  type="button"
+                  value="Log-out"
+                  class="logOut"
+                  id="logOut"
+                />
                 <span class="tooltiptext">Log-Out from App.</span>
               </div>
               <div class="tooltip">
-                <i class="fa-solid fa-user userDetail"></i>
+                <i class="fa-solid fa-user userDetail" id="userDetails"></i>
                 <span class="tooltiptext">See User Details</span>
               </div>
             </li>
@@ -41,13 +46,35 @@
         <div class="summaryDescription">
           <table>
             <thead>
-              <tr>
+              <tr class="tUnderline">
                 <th>1&rpar; Doctor Name</th>
-                <th>2&rpar; Created</th>
+                <th>2&rpar; Medication</th>
                 <th>3&rpar; Details</th>
               </tr>
             </thead>
-            <tbody id="preTbody"></tbody>
+            <tbody class="preTbody">
+              <% if(prescriptions.length > 0){%> <%
+              prescriptions.forEach(prescription => {%>
+              <tr>
+                <td><%= prescription.DoctorName %></td>
+                <td><%= prescription.MedicationName %></td>
+                <td>
+                  <button
+                    onclick="showDetails('<%= prescription %>')"
+                    name="details"
+                    value="Details"
+                    class="preBtn"
+                  >
+                    Details
+                  </button>
+                </td>
+              </tr>
+              <% }); %> <% } else {%>
+              <tr>
+                <td colspan="3">No Active Prescriptions Found</td>
+              </tr>
+              <% } %>
+            </tbody>
           </table>
         </div>
       </div>

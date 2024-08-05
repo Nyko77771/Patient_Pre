@@ -197,9 +197,12 @@ For tooltip and tooltiptext styling refered to:
 }
 .summaryDescription {
   padding: 10px;
-  border-bottom: 5px double black;
+
   border-top-left-radius: 8%;
   border-top-right-radius: 8%;
+}
+.tUnderline {
+  border-bottom: 5px double black;
 }
 .summaryDescription table {
   width: 100%;
@@ -212,6 +215,15 @@ For tooltip and tooltiptext styling refered to:
   font-size: 2em;
   display: flex;
   justify-content: space-around;
+}
+.preTbody tr {
+  margin-top: 15px;
+}
+.preBtn {
+  width: 60px;
+  height: 24px;
+  font-weight: bold;
+  cursor: pointer;
 }
 @media screen and (max-width: 1400px) {
   .preSummary {

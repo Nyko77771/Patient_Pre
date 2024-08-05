@@ -70,15 +70,3 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   }
 });
-
-/*
-signUp.onclick = function () {
-  title.textContent = "Sign Up";
-  uName.style.display = "block";
-};
-
-signIn.onclick = function () {
-  title.textContent = "Sign In";
-  uName.style.display = "none";
-};
-*/

@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //keeping Track of Login user
 var loggedIn;
+var user;
 var signUp = [];
 
 //Local
@@ -37,6 +38,9 @@ app.listen(port, localhost, (error) => {
 app.get("/", (req, res) => {
   try {
     console.log("Established connection");
+    //Removing saved information
+    user.length = 0;
+    //Logged in boolean is false
     loggedIn = false;
     res.render("index", { message: "" });
   } catch (error) {
@@ -56,10 +60,22 @@ app.get("/search", (req, res) => {
 });
 */
 
-app.get("/prescriptions", (req, res) => {
+app.get("/prescriptions", async (req, res) => {
+  try {
+    console.log("Opened Prescriptions");
+    const userPrescription = await prescriptions.Prescription.find({
+      PatientName: user,
+    });
+    res.render("prescriptions", { prescriptions: userPrescription });
+  } catch (error) {
+    console.log(`An ${error} has occured`);
+  }
+});
+
+app.get("/details", (req, res) => {
   try {
     console.log("Established connection");
-    res.render("prescriptions");
+    res.render("details");
   } catch (error) {
     console.log(`An ${error} has occured`);
   }
@@ -108,8 +124,10 @@ app.post("/:sign", async (req, res) => {
 
       if (mongoUser) {
         console.log("Password and Email found");
+        //Saving some logged in details for prescription page
         loggedIn = true;
-        res.render("prescriptions");
+        user = mongoUser.PatientName;
+        res.redirect("prescriptions");
       } else {
         console.log("Password or Email not found");
         res.render("index", { message: "Email or Password are incorrect" });
