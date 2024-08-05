@@ -234,7 +234,78 @@ For tooltip and tooltiptext styling refered to:
     font-size: 1.4em;
   }
 }
+/* Hidden Prescription Div */
+.preDetail {
+  background-color: #ffddd2;
+  width: 90%;
+  max-width: 800px;
+  min-width: 100px;
+  height: 700px;
+  position: absolute;
+  border-radius: 20px;
+  border: 5px solid #00509d;
+  display: none;
+  overflow-y: auto;
+}
+.hiddenContainer {
+  display: flex;
+  flex-direction: column;
+}
+.hiddenDetailBtn {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+.hiddenDetailBtn input {
+  width: 50px;
+  height: 30px;
+  margin: 8px;
+  border: 2px solid black;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.hiddenDetails {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  font-size: 1.5em;
+}
+.hiddenDetails th {
+  display: inline-block;
+  margin-right: 20px;
+}
 
+.hiddenDeleteBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.hiddenDeleteBtn button {
+  width: 150px;
+  height: 30px;
+  color: red;
+  border: 2px solid red;
+}
+.hiddenDeleteBtn:hover button {
+  background-color: #00509d;
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.moreBtn {
+  display: flex;
+  justify-content: center;
+}
+.moreBtn button {
+  width: 80px;
+  height: 50px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
 /* 404 Styling */
 .main404 {
   display: flex;

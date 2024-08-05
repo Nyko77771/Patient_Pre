@@ -6,6 +6,7 @@ app.set("view engine", "ejs");
 //Add Database Methods
 const mongoDB = require("./database/mongoDB");
 const prescriptions = require("./models/prescriptions");
+const { default: mongoose } = require("mongoose");
 
 const port = 8080;
 const localhost = "127.0.0.1";
@@ -38,8 +39,8 @@ app.listen(port, localhost, (error) => {
 app.get("/", (req, res) => {
   try {
     console.log("Established connection");
-    //Removing saved information
-    user.length = 0;
+    user = "";
+    userPrescription = "";
     //Logged in boolean is false
     loggedIn = false;
     res.render("index", { message: "" });
@@ -136,6 +137,46 @@ app.post("/:sign", async (req, res) => {
   } catch (error) {
     console.log(`Error occured in /:sign. ${error}`);
     res.render("index", { message: "Server Error. Please try again" });
+  }
+});
+
+/*************************
+
+ * Nykyta
+ * End of Post Methods
+ *
+
+***************************/
+
+/*************************
+
+ * Nykyta
+ * Start of Delete Methods
+ *
+
+***************************/
+app.delete("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log("Prescription ID:" + id);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      console.log("Invalid ID format");
+    }
+
+    const result = await prescriptions.Prescription.findByIdAndDelete(id);
+
+    if (result) {
+      const updatedPrescription = await prescriptions.Prescription.find({
+        PatientName: user,
+      });
+
+      res.render("prescriptions", { prescriptions: updatedPrescription });
+    } else {
+      console.log("No Prescriptions found with this id");
+    }
+  } catch (error) {
+    console.log(`Error occured while deleting prescription. Error: ${error}`);
   }
 });
 

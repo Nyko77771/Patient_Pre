@@ -49,7 +49,6 @@
               <tr class="tUnderline">
                 <th>1&rpar; Doctor Name</th>
                 <th>2&rpar; Medication</th>
-                <th>3&rpar; Details</th>
               </tr>
             </thead>
             <tbody class="preTbody">
@@ -58,18 +57,8 @@
               <tr>
                 <td><%= prescription.DoctorName %></td>
                 <td><%= prescription.MedicationName %></td>
-                <td>
-                  <button
-                    onclick="showDetails('<%= prescription %>')"
-                    name="details"
-                    value="Details"
-                    class="preBtn"
-                  >
-                    Details
-                  </button>
-                </td>
               </tr>
-              <% }); %> <% } else {%>
+              <% }); %> <% } else if(prescriptions.length === 0){%>
               <tr>
                 <td colspan="3">No Active Prescriptions Found</td>
               </tr>
@@ -77,9 +66,65 @@
             </tbody>
           </table>
         </div>
+        <div class="moreBtn">
+          <button class="preBtn">More</button>
+        </div>
       </div>
-      <div class="preDetail"></div>
+
+      <div class="preDetail">
+        <div class="hiddenContainer">
+          <div class="hiddenDetailBtn">
+            <input
+              type="button"
+              value="Close"
+              name="close"
+              id="closeHiddenBtn"
+            />
+          </div>
+          <div class="hiddenDetails">
+            <table>
+              <% if(prescriptions.length > 0){%> <%
+              prescriptions.forEach(prescription => {%>
+              <tr>
+                <th>Patient Name:</th>
+                <td><%= prescription.PatientName %></td>
+              </tr>
+              <tr>
+                <th>Medication:</th>
+                <td><%= prescription.MedicationName %></td>
+              </tr>
+              <tr>
+                <th>Dosage:</th>
+                <td><%= prescription.Dosage %></td>
+              </tr>
+              <tr>
+                <th>Route:</th>
+                <td><%= prescription.Route %></td>
+              </tr>
+              <tr>
+                <th>Frequency:</th>
+                <td><%= prescription.Frequency %></td>
+              </tr>
+              <tr>
+                <th>Assigned By:</th>
+                <td><%= prescription.DoctorName %></td>
+              </tr>
+              <tr class="hiddenDeleteBtn">
+                <td colspan="2">
+                  <button class="deleteBtn" data-id="<%= prescription._id%>">
+                    Delete Prescription
+                  </button>
+                </td>
+              </tr>
+              <% }); %> <% } else {%>
+              <tr>
+                <td colspan="2">Nothing to see</td>
+              </tr>
+              <% } %>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-    <footer></footer>
   </body>
 </html>
