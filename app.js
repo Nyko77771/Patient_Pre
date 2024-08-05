@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 //keeping Track of Login user
-var loginUser;
+var loggedIn;
 var signUp = [];
 
 //Local
@@ -37,6 +37,7 @@ app.listen(port, localhost, (error) => {
 app.get("/", (req, res) => {
   try {
     console.log("Established connection");
+    loggedIn = false;
     res.render("index", { message: "" });
   } catch (error) {
     console.log(`An ${error} has occured`);
@@ -80,21 +81,43 @@ app.get("/prescriptions", (req, res) => {
 
 ***************************/
 
-app.post("/:signup", async (req, res) => {
-  const name = req.body.name;
-  const password = req.body.password;
+app.post("/:sign", async (req, res) => {
+  try {
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
 
-  const mongoName = await prescriptions.Patient.find({ PatientName: name });
+    if (name) {
+      const mongoName = await prescriptions.Patient.find({ PatientName: name });
 
-  if (!mongoName && mongoName[0].Password === password) {
-    console.log(mongoName[0].Password, password);
-    console.log("Passwords match");
+      if (mongoName.length > 0 && mongoName[0].Password === password) {
+        console.log(mongoName[0].Password, password);
+        console.log("Passwords match");
 
-    res.render("index", { message: "User Exists. Please Login" });
-  } else {
-    signUp = [{ PatienName: name }, { Password: password }];
-    console.log(signUp);
-    // res.render("details");
+        res.render("index", { message: "User Exists. Please Login" });
+      } else {
+        signUp = [{ PatienName: name }, { Password: password }];
+        console.log(signUp);
+        // res.render("details");
+      }
+    } else {
+      const mongoUser = await prescriptions.Patient.findOne({
+        Email: email,
+        Password: password,
+      });
+
+      if (mongoUser) {
+        console.log("Password and Email found");
+        loggedIn = true;
+        res.render("prescriptions");
+      } else {
+        console.log("Password or Email not found");
+        res.render("index", { message: "Email or Password are incorrect" });
+      }
+    }
+  } catch (error) {
+    console.log(`Error occured in /:sign. ${error}`);
+    res.render("index", { message: "Server Error. Please try again" });
   }
 });
 

@@ -30,8 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   signIn.addEventListener("click", async () => {
     if (!isSignUp()) {
       if (!checkDetails()) {
-        //const response = await fetch();
-        alert("all details present");
+        indexForm.submit();
       }
     } else {
       title.textContent = "Sign In";

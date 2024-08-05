@@ -18,6 +18,7 @@ const patientSchema = new Schema(
   {
     PatientName: { type: String, required: true, maxlength: 50 },
     UserName: { type: String, required: true, maxlength: 50 },
+    Email: { type: String, required: true, maxlength: 50 },
     Password: { type: String, required: true, maxlength: 50 },
     Address: { type: String, required: true, maxlength: 100 },
   },

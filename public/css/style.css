@@ -60,6 +60,9 @@ body {
   border: 1px solid #72b01d;
   color: black;
 }
+#uName {
+  display: none;
+}
 .btns {
   width: 100%;
   display: flex;
