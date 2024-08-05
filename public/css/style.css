@@ -81,6 +81,11 @@ body {
 .btn1:hover {
   opacity: 1;
 }
+.hiddenMessage {
+  margin-top: 20px;
+  color: #4e507c;
+  font-size: 1.5em;
+}
 
 /* Prescription Styling */
 .preHeader {
@@ -178,19 +183,14 @@ For tooltip and tooltiptext styling refered to:
 .preSummary {
   background-color: #fff;
   width: 100%;
-  min-height: 600px;
-  max-width: 900px;
+  min-height: 800px;
+  max-width: 1400px;
   min-width: 200px;
   margin-top: 150px;
   border-radius: 8%;
   border: 2px solid black;
   flex: 1;
-}
-@media screen and (max-width: 905px) {
-  .preSummary {
-    max-width: 90%;
-    min-height: 600px;
-  }
+  overflow-y: auto;
 }
 .summaryDescription {
   padding: 10px;
@@ -198,13 +198,26 @@ For tooltip and tooltiptext styling refered to:
   border-top-left-radius: 8%;
   border-top-right-radius: 8%;
 }
-.summaryDescription ul {
+.summaryDescription table {
   width: 100%;
+}
+.summaryDescription th {
+  position: sticky;
+}
+.summaryDescription tr {
+  width: 100%;
+  font-size: 2em;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
-  font-size: 1.5em;
-  list-style-type: decimal;
+}
+@media screen and (max-width: 1400px) {
+  .preSummary {
+    max-width: 95%;
+    min-height: 600px;
+  }
+  .summaryDescription tr {
+    font-size: 1.4em;
+  }
 }
 
 /* 404 Styling */

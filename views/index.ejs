@@ -4,14 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In | Sign Up</title>
+    <!-- Link to our css -->
     <link rel="stylesheet" href="css/style.css" />
+    <!-- Link to our Sign In js -->
+    <script src="./../javascript/index.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="signUpBox">
         <h1 id="title">Sign Up</h1>
         <div class="decLine"></div>
-        <form>
+        <form action="/:signup" method="POST" id="indexForm">
           <div class="group">
             <form action="">
               <div class="field">
@@ -29,6 +32,7 @@
                   name="email"
                   placeholder="Enter Email"
                   class="signInputs"
+                  id="uMail"
                 />
               </div>
               <div class="field">
@@ -37,7 +41,9 @@
                   name="password"
                   placeholder="Enter Password"
                   class="signInputs"
+                  id="uPass"
                 />
+                <div class="hiddenMessage"><%= message %></div>
               </div>
               <div class="btns">
                 <input
@@ -59,21 +65,4 @@
       </div>
     </div>
   </body>
-
-  <script>
-    var uName = document.getElementById("uName");
-    var signIn = document.getElementById("signInBtn");
-    var signUp = document.getElementById("signUpBtn");
-    var title = document.getElementById("title");
-
-    signIn.onclick = function () {
-      title.textContent = "Sign In";
-      uName.style.display = "none";
-    };
-
-    signUp.onclick = function () {
-      title.textContent = "Sign Up";
-      uName.style.display = "block";
-    };
-  </script>
 </html>
