@@ -20,7 +20,7 @@ const patientSchema = new Schema(
     Email: { type: String, required: true, maxlength: 50 },
     Password: { type: String, required: true, maxlength: 50 },
     dateOfBirth: {
-      type: Number,
+      type: String,
       required: true,
     },
     phoneNumber: {
