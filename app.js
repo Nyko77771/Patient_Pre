@@ -26,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 var loggedIn;
 var user;
 var signUp;
+var updatedPatient;
 
 //Local
 app.listen(port, localhost, (error) => {
@@ -107,6 +108,7 @@ app.get("/details", async (req, res) => {
     var boole;
     var UserDetails;
 
+    console.log("Details " + user);
     //checking if user is logged in and has a user name saved
     if (loggedIn && user) {
       boole = true;
@@ -122,11 +124,6 @@ app.get("/details", async (req, res) => {
         message2 = "";
         boole;
         //else if he does not then provide another data
-      } else {
-        message1 = "User Not Found";
-        message2 = "";
-        boole = false;
-        UserDetails = {};
       }
       //If not a logedIn user method
     } else if (!loggedIn) {
@@ -312,11 +309,14 @@ app.post("/update", async (req, res) => {
 
   //Checking if loggeIn and user name is present then we update the patients information and send response in json back
   if (loggedIn && user) {
-    await prescriptions.Patient.updateOne(
+    updatedPatient = await prescriptions.Patient.updateOne(
       { PatientName: user },
       { $set: updatedFields }
     )
-      .then((result) => res.json({ success: true, data: result }))
+      .then((result) => {
+        user = userData.patientName;
+        res.json({ success: true, data: result });
+      })
       .catch((error) => {
         console.error("Error saving data:", error);
         res.json({ success: false, error: error.message });

@@ -465,7 +465,7 @@ nav div button:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Styles for the details box */
@@ -521,7 +521,7 @@ nav div button:hover {
   max-width: 450px;
   min-width: 400px;
   min-height: 250px;
-  max-height: 1200px;
+  max-height: 1085px;
   background-color: aliceblue;
   padding: 30px 50px 50px;
   text-align: center;
