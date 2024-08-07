@@ -143,7 +143,7 @@ app.get("/details", async (req, res) => {
         boole = false;
         //If not add Error message to page
       } else {
-        message1 = "Error";
+        message1 = "";
         message2 = "";
         boole = false;
         UserDetails = {};
