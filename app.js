@@ -359,16 +359,12 @@ app.delete("/:id", async (req, res) => {
 ***************************/
 
 app.delete("/user-details/:id", (req, res) => {
-  const userName = req.body.PatientName;
-  const userEmail = req.body.Email;
+  const id = req.params.id;
 
-  console.log("Name is:" + userName + " Email is:" + userEmail);
+  console.log("ID is:" + id);
 
   try {
-    prescriptions.Patient.findOneAndDelete({
-      PatientName: userName,
-      Email: userEmail,
-    })
+    prescriptions.Patient.findByIdAndDelete(id)
       .then((result) => {
         if (result) {
           res.json({ message: "Details deleted successfully." });

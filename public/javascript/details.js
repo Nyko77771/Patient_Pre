@@ -80,18 +80,27 @@ document.addEventListener("DOMContentLoaded", () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          personalDetailsContainer.innerHTML = "";
-
-          const detailsBox = document.createElement("div");
-          detailsBox.classList.add("details-box");
-
-          const p = document.createElement("p");
-          p.textContent = "Details deleted successfully.";
-          detailsBox.appendChild(p);
-
-          personalDetailsContainer.appendChild(detailsBox);
+          console.log(data);
+          if (data.message === "Details deleted successfully.") {
+            makeMessage(data.message);
+          } else {
+            makeMessage("Details Not Found and Not Deleted");
+          }
         })
         .catch((error) => console.error("Error:", error));
     });
   }
 });
+
+function makeMessage(message) {
+  personalDetailsContainer.innerHTML = "";
+
+  const detailsBox = document.createElement("div");
+  detailsBox.classList.add("details-box");
+
+  const p = document.createElement("p");
+  p.textContent = message;
+  detailsBox.appendChild(p);
+
+  personalDetailsContainer.appendChild(detailsBox);
+}
