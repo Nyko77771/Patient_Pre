@@ -1,3 +1,4 @@
+//Importing different node.js packages
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -5,15 +6,20 @@ app.set("view engine", "ejs");
 
 //Add Database Methods
 const mongoDB = require("./database/mongoDB");
+//Importing MongoDB model
 const prescriptions = require("./models/prescriptions");
+//Added by Visual Studio
 const { default: mongoose } = require("mongoose");
 const { sign } = require("crypto");
 const { userInfo } = require("os");
 
+//Assigning Port and localhost variables
 const port = 8080;
 const localhost = "127.0.0.1";
 
+//Stating direct path to public folder
 app.use(express.static(path.join(__dirname, "public")));
+//Using urlencoded middleware
 app.use(express.urlencoded({ extended: true }));
 
 //keeping Track of Login user
@@ -38,29 +44,40 @@ app.listen(port, localhost, (error) => {
 
 ***************************/
 
+//Get method for home or main page
 app.get("/", (req, res) => {
   try {
+    //Test if connecting to this get method
     console.log("Established connection");
+
+    //clearing user variable of values
     user = "";
-    userPrescription = "";
     //Logged in boolean is false
     loggedIn = false;
+    //rendering index with message blank
     res.render("index", { message: "" });
   } catch (error) {
     console.log(`An ${error} has occured`);
   }
 });
 
+//Get method for prescriptions
 app.get("/prescriptions", async (req, res) => {
+  //Using error checking
   try {
+    //Checking if connected to this get method
     console.log("Opened Prescriptions");
+    //checking if loggedIn
     if (loggedIn) {
+      //Getting Prescription details from MongoDB
       const userPrescription = await prescriptions.Prescription.find({
         PatientName: user,
       });
+      //Rendering prescription page with users prescriptions
       res.render("prescriptions", { prescriptions: userPrescription });
     }
   } catch (error) {
+    //Error checking
     console.log(`An ${error} has occured`);
   }
 });
@@ -81,25 +98,31 @@ app.get("/prescriptions", async (req, res) => {
 
 ***************************/
 //route and response
+//getting details method
 app.get("/details", async (req, res) => {
   try {
+    //Keeping track of variable information
     var message1;
     var message2;
     var boole;
     var UserDetails;
 
+    //checking if user is logged in and has a user name saved
     if (loggedIn && user) {
       boole = true;
 
+      //getting user information from name
       UserDetails = await prescriptions.Patient.findOne({
         PatientName: user,
       });
 
+      //checking if this user exists or is found
       if (UserDetails) {
         message1 = "User Details";
         message2 = "";
         boole;
-      } else if (!UserDetails) {
+        //else if he does not then provide another data
+      } else {
         message1 = "User Not Found";
         message2 = "";
         boole = false;
