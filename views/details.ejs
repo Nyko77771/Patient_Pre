@@ -3,7 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Details</title>
+    <title>Details</title>
+    <link rel="stylesheet" href="./../css/style.css" />
+    <script src="./../javascript/details.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <div class="mainDiv">
+      <h1 class="heading">
+        <%= message%>
+        <a href="update"><%= message2%></a>
+      </h1>
+      <div class="content">
+        <div class="menu">
+          <nav>
+            <div><button id="viewDetailsButton">View Details</button></div>
+            <div>
+              <button
+                id="editDetailsButton"
+                onclick="window.location.href = 'update'"
+              >
+                Edit Details
+              </button>
+            </div>
+            <div><button id="deleteDetailsButton">Delete Details</button></div>
+            <div>
+              <% if(attribute){%>
+              <button
+                id="backToPrescription"
+                onclick="window.location.href='prescriptions'"
+              >
+                > Back
+              </button>
+              <% }%>
+            </div>
+          </nav>
+        </div>
+        <div class="personal-Details" id="personalDetailsContainer"></div>
+      </div>
+    </div>
+  </body>
 </html>

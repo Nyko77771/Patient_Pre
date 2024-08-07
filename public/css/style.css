@@ -21,6 +21,7 @@ body {
   max-width: 450px;
   min-width: 400px;
   min-height: 250px;
+  max-height: 1200px;
   background-color: aliceblue;
   padding: 40px 60px 60px;
   text-align: center;
@@ -29,6 +30,7 @@ body {
   color: #4e507c;
   font-family: "Times New Roman", Times, serif;
   box-shadow: 2px 4px 0 #4a5759;
+  overflow-y: hidden;
 }
 .signUpBox h1 {
   font-size: 3em;
@@ -334,4 +336,207 @@ For tooltip and tooltiptext styling refered to:
   color: #fff;
   font-weight: bolder;
   cursor: pointer;
+}
+
+/*
+
+Hasan Code
+
+*/
+
+/* details page code */
+
+.mainDiv {
+  background: linear-gradient(#16697a, #ffddd2);
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.heading {
+  text-align: center;
+  margin-top: 5%;
+  font-size: 3rem;
+  color: #fff;
+  padding: 2%;
+}
+
+.mainDiv .right {
+  position: absolute;
+}
+
+.btn2 {
+  background-color: #00509d;
+  opacity: 0.8;
+  color: whitesmoke;
+  height: 50px;
+  width: 100px;
+  border-radius: 20px;
+  margin-top: 300px;
+  margin-left: 36%;
+  /* H submit button adjustment */
+  border: none;
+  outline: none;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 1s;
+}
+
+.btn2:hover {
+  opacity: 1;
+}
+
+/* Menu design of details page */
+
+.menu {
+  float: left;
+  height: 400px;
+  width: 250px;
+
+  margin: 5% 0% 0% 5%;
+
+  background-color: aliceblue;
+  padding: 40px 60px 60px;
+  text-align: center;
+  border-radius: 16px;
+  /* H border radius adjustment  */
+  justify-content: space-around;
+  color: #4e507c;
+  font-family: "Times New Roman", Times, serif;
+  box-shadow: 2px 4px 0 #4a5759;
+  font-size: 1.3rem;
+  /* H details font adjustment */
+
+  /* flex: 0 0 30%;   this one destroys the shape of the menue div , it still works without as aspected.*/
+}
+
+nav div button {
+  width: 98%;
+  margin: 10% 0 0 0;
+  border: 2px solid #86bbd8;
+  padding: 20px 15px;
+  font-size: 0.9rem;
+  color: #4e507c;
+  cursor: pointer;
+  max-height: 60px;
+  transition: max-height 0.1s;
+  border-radius: 8px;
+}
+nav div button:hover {
+  border: 2px solid #72b01d;
+  color: black;
+}
+
+/* Media Queries */
+@media (max-width: 700px) {
+  .signUpBox {
+    width: 90%;
+    padding: 20px 30px;
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1600px) {
+  .signUpBox {
+    width: 70%;
+    padding: 30px 50px;
+  }
+}
+
+@media (min-width: 1601px) {
+  .signUpBox {
+    width: 50%;
+    padding: 40px 60px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1800px) {
+  .signUpBox {
+    width: 40%;
+    padding: 50px 70px;
+  }
+}
+
+/* Container for buttons and details */
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+/* Styles for the details box */
+.details-box {
+  background-color: aliceblue;
+  padding: 20px;
+  margin: 6% 0% 0% 5%;
+  border-radius: 16px;
+  box-shadow: 2px 4px 0 #4a5759;
+  font-family: "Times New Roman", Times, serif;
+  color: #4e507c;
+  text-align: left;
+  max-width: 60%;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.details-box p {
+  margin: 10px 0;
+}
+
+.personal-Details {
+  flex: 1;
+}
+
+/* Go Back Button */
+.goBack {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  max-width: 150px;
+  background-color: #e64b17;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+}
+
+.goBack a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Style error message for detaiils form */
+.error {
+  color: red;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+
+/* Additional Styling */
+.signUpBox2 {
+  width: 50%;
+  max-width: 450px;
+  min-width: 400px;
+  min-height: 250px;
+  max-height: 1200px;
+  background-color: aliceblue;
+  padding: 30px 50px 50px;
+  text-align: center;
+  border-radius: 5%;
+  justify-content: space-around;
+  color: #4e507c;
+  font-family: "Times New Roman", Times, serif;
+  box-shadow: 2px 4px 0 #4a5759;
+  overflow-y: scroll;
+}
+.signUpBox2 input {
+  height: 20px;
+}
+#backToPrescription {
+  color: #e64b17;
+  font-weight: bold;
+  border: 2px solid #e64b17;
 }

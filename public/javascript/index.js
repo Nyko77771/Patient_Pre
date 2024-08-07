@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   signUp.addEventListener("click", async () => {
     if (isSignUp()) {
       if (!checkDetails()) {
+        indexForm.action = "/sign-up";
         indexForm.submit();
       }
     } else {
@@ -30,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
   signIn.addEventListener("click", async () => {
     if (!isSignUp()) {
       if (!checkDetails()) {
+        if (uName) {
+          uName.remove();
+        }
+        indexForm.action = "/sign-in";
         indexForm.submit();
       }
     } else {

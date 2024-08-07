@@ -17,9 +17,32 @@ const prescriptionSchema = new Schema(
 const patientSchema = new Schema(
   {
     PatientName: { type: String, required: true, maxlength: 50 },
-    UserName: { type: String, required: true, maxlength: 50 },
     Email: { type: String, required: true, maxlength: 50 },
     Password: { type: String, required: true, maxlength: 50 },
+    dateOfBirth: {
+      type: Number,
+      required: true,
+    },
+    phoneNumber: {
+      type: Number,
+      required: true,
+    },
+    bloodGroup: {
+      type: String,
+      required: true,
+    },
+    height: {
+      type: Number,
+      required: true,
+    },
+    weight: {
+      type: Number,
+      required: true,
+    },
+    eireCode: {
+      type: String,
+      required: true,
+    },
     Address: { type: String, required: true, maxlength: 100 },
   },
   { timestamps: true }

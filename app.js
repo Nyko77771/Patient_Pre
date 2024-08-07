@@ -7,6 +7,8 @@ app.set("view engine", "ejs");
 const mongoDB = require("./database/mongoDB");
 const prescriptions = require("./models/prescriptions");
 const { default: mongoose } = require("mongoose");
+const { sign } = require("crypto");
+const { userInfo } = require("os");
 
 const port = 8080;
 const localhost = "127.0.0.1";
@@ -17,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 //keeping Track of Login user
 var loggedIn;
 var user;
-var signUp = [];
+var signUp;
 
 //Local
 app.listen(port, localhost, (error) => {
@@ -73,18 +75,71 @@ app.get("/prescriptions", async (req, res) => {
   }
 });
 
-app.get("/details", (req, res) => {
+/*************************
+
+ * Nykyta
+ * End of Get Methods
+ *
+
+***************************/
+
+/*************************
+
+ * Hasan
+ * Start of Get Methods
+ *
+
+***************************/
+//route and response
+app.get("/details", async (req, res) => {
   try {
-    console.log("Established connection");
-    res.render("details");
+    var message;
+    if (loggedIn && user) {
+      boole = true;
+    } else if (!loggedIn && signUp) {
+      boole = false;
+    }
+
+    console.log(user);
+    res.render("details", {
+      message: "User Details",
+      message2: "",
+      attribute: boole,
+    }); //root: __dirname is our specific relative path to our file
   } catch (error) {
     console.log(`An ${error} has occured`);
   }
 });
 
+app.get("/update", (req, res) => {
+  res.render("update"); //root: __dirname is our specific relative path to our file
+});
+
+app.get("/user-details", (req, res) => {
+  if (loggedIn && user) {
+    prescriptions.Patient.findOne({ PatientName: user.PatienName })
+      .then((result) => res.json(result))
+      .catch((error) => console.log(error));
+  } else if (!loggedIn && signUp) {
+    const message = {
+      PatienName: signUp.PatienName,
+      Email: signUp.Email,
+      Password: signUp.Password,
+      dateofBirth: "Not Found",
+      phoneNumber: "Not Found",
+      bloodGroup: "Not Found",
+      height: "Not Found",
+      weight: "Not Found",
+      eireCode: "Not Found",
+      Address: "Not Found",
+    };
+    res.json(message);
+  }
+});
+
 /*************************
 
- * Nykyta
+ * Hasan
  * End of Get Methods
  *
 
@@ -98,41 +153,25 @@ app.get("/details", (req, res) => {
 
 ***************************/
 
-app.post("/:sign", async (req, res) => {
+app.post("/sign-in", async (req, res) => {
+  var email = req.body.email;
+  var password = req.body.password;
+
   try {
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
+    const mongoUser = await prescriptions.Patient.findOne({
+      Email: email,
+      Password: password,
+    });
 
-    if (name) {
-      const mongoName = await prescriptions.Patient.find({ PatientName: name });
-
-      if (mongoName.length > 0 && mongoName[0].Password === password) {
-        console.log(mongoName[0].Password, password);
-        console.log("Passwords match");
-
-        res.render("index", { message: "User Exists. Please Login" });
-      } else {
-        signUp = [{ PatienName: name }, { Password: password }];
-        console.log(signUp);
-        // res.render("details");
-      }
+    if (mongoUser) {
+      console.log("Password and Email found");
+      //Saving some logged in details for prescription page
+      loggedIn = true;
+      user = mongoUser.PatientName;
+      res.redirect("prescriptions");
     } else {
-      const mongoUser = await prescriptions.Patient.findOne({
-        Email: email,
-        Password: password,
-      });
-
-      if (mongoUser) {
-        console.log("Password and Email found");
-        //Saving some logged in details for prescription page
-        loggedIn = true;
-        user = mongoUser.PatientName;
-        res.redirect("prescriptions");
-      } else {
-        console.log("Password or Email not found");
-        res.render("index", { message: "Email or Password are incorrect" });
-      }
+      console.log("Password or Email not found");
+      res.render("index", { message: "Email or Password are incorrect" });
     }
   } catch (error) {
     console.log(`Error occured in /:sign. ${error}`);
@@ -140,9 +179,102 @@ app.post("/:sign", async (req, res) => {
   }
 });
 
+app.post("/sign-up", async (req, res) => {
+  try {
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+
+    console.log(name);
+
+    if (name) {
+      const mongoName = await prescriptions.Patient.find({ PatientName: name });
+
+      if (mongoName.length > 0 && mongoName[0].Password === password) {
+        console.log(mongoName[0].Password, password);
+        console.log("Passwords match");
+        res.render("index", { message: "User Exists. Please Login" });
+      } else {
+        signUp = {
+          PatienName: name,
+          Password: password,
+          Email: email,
+        };
+        loggedIn = false;
+        console.log(signUp);
+        res.render("details", {
+          message: "If You Are a First Time Patient, Please fill out the",
+          message2: "Personal Details Form Here",
+          attribute: false,
+          UserDetails: signUp,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(`Error occured in sign-up. ${error}`);
+  }
+});
+
 /*************************
 
  * Nykyta
+ * End of Post Methods
+ *
+
+***************************/
+
+/*************************
+
+ * Hasan
+ * Start of Post Methods
+ *
+
+***************************/
+
+app.post("/update", async (req, res) => {
+  const userData = req.body;
+  console.log("Received data:", userData); // Log received data for debugging
+
+  const updatedFields = {
+    PatientName: userData.patientName,
+    Email: userData.email,
+    Password: userData.password,
+    dateOfBirth: userData.dateOfBirth,
+    phoneNumber: userData.phoneNumber,
+    bloodGroup: userData.bloodGroup,
+    height: userData.height,
+    weight: userData.weight,
+    eireCode: userData.eireCode,
+    Address: userData.address,
+  };
+
+  if (loggedIn && user) {
+    await prescriptions.Patient.updateOne(
+      { PatientName: user },
+      { $set: updatedFields }
+    )
+      .then((result) => res.json({ success: true, data: result }))
+      .catch((error) => {
+        console.error("Error saving data:", error);
+        res.json({ success: false, error: error.message });
+      });
+  }
+
+  if (!loggedIn && signUp) {
+    const newPatient = new prescriptions.Patient(updatedFields);
+    newPatient
+      .save()
+      .then((result) => res.render("/"))
+      .catch((error) => {
+        console.error("Error saving data:", error);
+        res.json({ success: false, error: error.message });
+      });
+  }
+});
+
+/*************************
+
+ * Hasan
  * End of Post Methods
  *
 
@@ -180,6 +312,7 @@ app.delete("/:id", async (req, res) => {
   }
 });
 
+//404 page, app.use(), must be added to the last as it will only execute if no other  conditions are met before that.
 app.use((req, res) => {
   res.status(404).render("404");
 });

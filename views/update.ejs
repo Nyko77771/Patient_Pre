@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Details Update</title>
+    <link rel="stylesheet" href="./../css/style.css" />
+    <script src="./../javascript/update.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <button
+        type="button"
+        class="btn1 goBack"
+        onclick="location.href='details'"
+      >
+        Go Back
+      </button>
+
+      <div class="signUpBox2">
+        <h1>Patient Details</h1>
+        <div class="group">
+          <form id="detailsForm">
+            <label for="PatientName">Enter Name:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Enter Name"
+              id="patientName"
+              name="PatientName"
+            />
+
+            <label for="Email">Enter Email:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Enter Email"
+              id="email"
+              name="Email"
+            />
+
+            <label for="password">Enter Password:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Enter Password"
+              id="password"
+              name="password"
+            />
+
+            <label for="dateofBirth">Enter Date of Birth:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="D.O.B"
+              id="dateOfBirth"
+              name="dateOfBirth"
+            />
+
+            <label for="phoneNumber">Phone Number:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Phone Number"
+              id="phoneNumber"
+              name="phoneNumber"
+            />
+
+            <label for="bloodGroup">Blood Group:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Blood Group"
+              id="bloodGroup"
+              name="bloodGroup"
+            />
+
+            <label for="height">Height:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Height"
+              id="height"
+              name="height"
+            />
+
+            <label for="weight">Weight:</label>
+            <input
+              class="signInputs"
+              type="text"
+              placeholder="Weight in Kg"
+              id="weight"
+              name="weight"
+            />
+
+            <label for="eircode">Eircode:</label>
+            <input class="signInputs" type="text" id="eircode" name="eircode" />
+
+            <label for="address">Address:</label>
+            <input class="signInputs" type="text" id="address" name="address" />
+
+            <input class="btn1" type="submit" value="Submit" id="submitBtn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
