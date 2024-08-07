@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+//Used for constructing error messages
 const showError = (input, message) => {
   const error = document.createElement("div");
   error.className = "error";

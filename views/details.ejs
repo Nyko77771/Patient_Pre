@@ -10,7 +10,7 @@
   <body>
     <div class="mainDiv">
       <h1 class="heading">
-        <%= message%>
+        <%= message1%>
         <a href="update"><%= message2%></a>
       </h1>
       <div class="content">
@@ -25,14 +25,16 @@
                 Edit Details
               </button>
             </div>
-            <div><button id="deleteDetailsButton">Delete Details</button></div>
+            <div>
+              <button id="deleteDetailsButton">Delete Details</button>
+            </div>
             <div>
               <% if(attribute){%>
               <button
                 id="backToPrescription"
                 onclick="window.location.href='prescriptions'"
               >
-                > Back
+                Back
               </button>
               <% }%>
             </div>

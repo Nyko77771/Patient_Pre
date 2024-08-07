@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             detailsBox.classList.add("details-box");
 
             const keys = [
-              "PatienName",
+              "PatientName",
               "Email",
               "Password",
               "dateofBirth",
@@ -65,7 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (deleteDetailsButton) {
     deleteDetailsButton.addEventListener("click", () => {
-      fetch("/user-details", { method: "DELETE" })
+      const id = deleteDetailsButton.dataset.id;
+      console.log(id);
+      const backEndPoint2 = `/user-details/${id}`;
+      fetch(backEndPoint2, { method: "DELETE" })
         .then((response) => response.json())
         .then((data) => {
           personalDetailsContainer.innerHTML = "";

@@ -51,25 +51,15 @@ app.get("/", (req, res) => {
   }
 });
 
-//Depreciated Search Function
-/*
-app.get("/search", (req, res) => {
-  try {
-    console.log("Established connection");
-    res.render("search");
-  } catch (error) {
-    console.log(`An ${error} has occured`);
-  }
-});
-*/
-
 app.get("/prescriptions", async (req, res) => {
   try {
     console.log("Opened Prescriptions");
-    const userPrescription = await prescriptions.Prescription.find({
-      PatientName: user,
-    });
-    res.render("prescriptions", { prescriptions: userPrescription });
+    if (loggedIn) {
+      const userPrescription = await prescriptions.Prescription.find({
+        PatientName: user,
+      });
+      res.render("prescriptions", { prescriptions: userPrescription });
+    }
   } catch (error) {
     console.log(`An ${error} has occured`);
   }
@@ -93,19 +83,46 @@ app.get("/prescriptions", async (req, res) => {
 //route and response
 app.get("/details", async (req, res) => {
   try {
-    var message;
+    var boole;
+    var UserDetails;
+
     if (loggedIn && user) {
       boole = true;
-    } else if (!loggedIn && signUp) {
+
+      UserDetails = prescriptions.Patient.findOne({
+        PatientName: user,
+      });
+
+      prescriptions.Patient.findOne({ PatientName: user })
+        .then((result) => {
+          if (result) {
+            res.render("details", { UserDetails: result });
+          }
+        })
+        .catch((error) => {
+          console.log(`Error getting details in /details. ${error}`);
+        });
+
+      res.render("details", {
+        message1: "User Details",
+        message2: "",
+        attribute: boole,
+        details: UserDetails,
+      });
+    } else if (!loggedIn) {
       boole = false;
+      UserDetails = prescriptions.Patient.findOne({
+        PatientName: signUp.PatientName,
+      });
     }
 
     console.log(user);
     res.render("details", {
-      message: "User Details",
-      message2: "",
+      message1: "If You Are a First Time Patient, Please fill out the ",
+      message2: "Personal Details Form Here.",
       attribute: boole,
-    }); //root: __dirname is our specific relative path to our file
+      details: UserDetails,
+    });
   } catch (error) {
     console.log(`An ${error} has occured`);
   }
@@ -117,12 +134,12 @@ app.get("/update", (req, res) => {
 
 app.get("/user-details", (req, res) => {
   if (loggedIn && user) {
-    prescriptions.Patient.findOne({ PatientName: user.PatienName })
+    prescriptions.Patient.findOne({ PatientName: user })
       .then((result) => res.json(result))
       .catch((error) => console.log(error));
   } else if (!loggedIn && signUp) {
     const message = {
-      PatienName: signUp.PatienName,
+      PatientName: signUp.PatientName,
       Email: signUp.Email,
       Password: signUp.Password,
       dateofBirth: "Not Found",
@@ -196,14 +213,14 @@ app.post("/sign-up", async (req, res) => {
         res.render("index", { message: "User Exists. Please Login" });
       } else {
         signUp = {
-          PatienName: name,
+          PatientName: name,
           Password: password,
           Email: email,
         };
         loggedIn = false;
         console.log(signUp);
         res.render("details", {
-          message: "If You Are a First Time Patient, Please fill out the",
+          message1: "If You Are a First Time Patient, Please fill out the",
           message2: "Personal Details Form Here",
           attribute: false,
           UserDetails: signUp,
@@ -260,11 +277,16 @@ app.post("/update", async (req, res) => {
       });
   }
 
-  if (!loggedIn && signUp) {
+  if (!loggedIn) {
     const newPatient = new prescriptions.Patient(updatedFields);
     newPatient
       .save()
-      .then((result) => res.render("/"))
+      .then((result) => {
+        loggedIn = true;
+        user = newPatient.PatientName;
+        console.log(`New Patient name is:` + user);
+        res.json({ success: true, data: result });
+      })
       .catch((error) => {
         console.error("Error saving data:", error);
         res.json({ success: false, error: error.message });
@@ -311,6 +333,66 @@ app.delete("/:id", async (req, res) => {
     console.log(`Error occured while deleting prescription. Error: ${error}`);
   }
 });
+
+/*************************
+
+ * Nykyta
+ * End of Delete Methods
+ *
+
+***************************/
+
+/*************************
+
+ * Hasan
+ * Start of Delete Methods
+ *
+
+***************************/
+
+app.delete("/user-details/:id", (req, res) => {
+  const id = req.params._id;
+  console.log("ID is:" + id);
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    console.log("Invalid ID format");
+  }
+
+  prescriptions.Patient.findByIdAndDelete(id)
+    .then(() => res.json({ message: "Details deleted successfully." }))
+    .catch((error) => console.log(error));
+
+  /*
+  if (loggedIn && user) {
+    prescriptions.Patient.findOneAndDelete({ PatientName: user.PatienName })
+      .then(() => res.json({ message: "Details deleted successfully." }))
+      .catch((error) => console.log(error));
+  } else if (!loggedIn) {
+    res
+      .json({ message: "User doesnt exist" })
+      .catch((error) => console.log(error));
+
+  }
+*/
+  /*
+  prescriptions.Patient.findOneAndDelete()
+    .then(() => res.json({ message: "Details deleted successfully." }))
+    .catch((error) => console.log(error));
+*/
+  /*
+  Detail.findOneAndDelete()
+    .then(() => res.json({ message: "Details deleted successfully." }))
+    .catch((error) => console.log(error));
+    */
+});
+
+/*************************
+
+ * Hasan
+ * End of Delete Methods
+ *
+
+***************************/
 
 //404 page, app.use(), must be added to the last as it will only execute if no other  conditions are met before that.
 app.use((req, res) => {
