@@ -9,6 +9,23 @@
   </head>
   <body>
     <div class="mainDiv">
+      <header class="preHeader">
+        <nav class="navigation">
+          <ul>
+            <li>
+              <div class="tooltip">
+                <input
+                  type="button"
+                  value="Log-out"
+                  class="logOut"
+                  id="logOut"
+                />
+                <span class="tooltiptext">Log-Out from App.</span>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
       <h1 class="heading">
         <%= message1%>
         <a href="update"><%= message2%></a>
@@ -36,7 +53,7 @@
                 id="backToPrescription"
                 onclick="window.location.href='prescriptions'"
               >
-                Back
+                Prescriptions
               </button>
               <% }%>
             </div>

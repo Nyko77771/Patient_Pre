@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "personalDetailsContainer"
   );
 
+  // Log Out Button
+  const logOff = document.getElementById("logOut");
+
   //Checking if Details Button is present. Adding event to it when it is clicked
   if (viewDetailsButton) {
     viewDetailsButton.addEventListener("click", () => {
@@ -108,6 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => console.error("Error:", error));
     });
   }
+
+  //Log Off Function on Click
+  logOff.addEventListener("click", () => {
+    fetch("/")
+      .then((response) => (window.location.href = "/"))
+      .catch((e) => console.log(`Error occurred while logging off. ${e}`));
+  });
 });
 
 //Function to populate our empty div with a message
