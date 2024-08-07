@@ -66,9 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (deleteDetailsButton) {
     deleteDetailsButton.addEventListener("click", () => {
       const id = deleteDetailsButton.dataset.id;
-      console.log(id);
-      const backEndPoint2 = `/user-details/${id}`;
-      fetch(backEndPoint2, { method: "DELETE" })
+
+      console.log("Patient ID: " + id);
+
+      const backendURL = `/user-details/${id}`;
+
+      /*
+      const urlencodedData = new URLSearchParams({ name, email, id });
+      */
+
+      fetch(backendURL, {
+        method: "DELETE",
+      })
         .then((response) => response.json())
         .then((data) => {
           personalDetailsContainer.innerHTML = "";

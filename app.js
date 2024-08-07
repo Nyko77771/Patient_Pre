@@ -83,45 +83,53 @@ app.get("/prescriptions", async (req, res) => {
 //route and response
 app.get("/details", async (req, res) => {
   try {
+    var message1;
+    var message2;
     var boole;
     var UserDetails;
 
     if (loggedIn && user) {
       boole = true;
 
-      UserDetails = prescriptions.Patient.findOne({
+      UserDetails = await prescriptions.Patient.findOne({
         PatientName: user,
       });
 
-      prescriptions.Patient.findOne({ PatientName: user })
-        .then((result) => {
-          if (result) {
-            res.render("details", { UserDetails: result });
-          }
-        })
-        .catch((error) => {
-          console.log(`Error getting details in /details. ${error}`);
-        });
-
-      res.render("details", {
-        message1: "User Details",
-        message2: "",
-        attribute: boole,
-        details: UserDetails,
-      });
+      if (UserDetails) {
+        message1 = "User Details";
+        message2 = "";
+        boole;
+      } else if (!UserDetails) {
+        message1 = "User Not Found";
+        message2 = "";
+        boole = false;
+        UserDetails = {};
+      }
     } else if (!loggedIn) {
       boole = false;
-      UserDetails = prescriptions.Patient.findOne({
+      UserDetails = await prescriptions.Patient.findOne({
         PatientName: signUp.PatientName,
       });
+
+      if (UserDetails) {
+        message1 = "If You Are a First Time Patient, Please fill out the ";
+        message2 = "Personal Details Form Here.";
+        boole = false;
+      } else {
+        message1 = "Error";
+        message2 = "";
+        boole = false;
+        UserDetails = {};
+      }
     }
 
-    console.log(user);
+    console.log(UserDetails);
+
     res.render("details", {
-      message1: "If You Are a First Time Patient, Please fill out the ",
-      message2: "Personal Details Form Here.",
+      message1: message1,
+      message2: message2,
       attribute: boole,
-      details: UserDetails,
+      UserDetails: UserDetails,
     });
   } catch (error) {
     console.log(`An ${error} has occured`);
@@ -351,16 +359,27 @@ app.delete("/:id", async (req, res) => {
 ***************************/
 
 app.delete("/user-details/:id", (req, res) => {
-  const id = req.params._id;
-  console.log("ID is:" + id);
+  const userName = req.body.PatientName;
+  const userEmail = req.body.Email;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    console.log("Invalid ID format");
+  console.log("Name is:" + userName + " Email is:" + userEmail);
+
+  try {
+    prescriptions.Patient.findOneAndDelete({
+      PatientName: userName,
+      Email: userEmail,
+    })
+      .then((result) => {
+        if (result) {
+          res.json({ message: "Details deleted successfully." });
+        } else {
+          res.json({ message: "Patient not found" });
+        }
+      })
+      .catch((error) => console.log(error));
+  } catch (error) {
+    console.log(`Error occured while attempting to delete. ${error}`);
   }
-
-  prescriptions.Patient.findByIdAndDelete(id)
-    .then(() => res.json({ message: "Details deleted successfully." }))
-    .catch((error) => console.log(error));
 
   /*
   if (loggedIn && user) {
