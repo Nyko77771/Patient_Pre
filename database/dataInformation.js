@@ -1,5 +1,8 @@
 // Static Information
+//Added to database automatically
+//when backend/app.js is launched
 
+//Patient collection
 const patients = [
   {
     PatientName: "Alice Cooper",
@@ -75,6 +78,7 @@ const patients = [
   },
 ];
 
+//Prescription Collection
 const prescriptions = [
   {
     MedicationName: "Amoxicillin",
@@ -150,6 +154,7 @@ const prescriptions = [
   },
 ];
 
+//Exports collections
 module.exports = {
   prescriptions,
   patients,

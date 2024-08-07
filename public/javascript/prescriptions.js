@@ -40,29 +40,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   //delete Prescription
   deleteBtn.forEach((button) => {
     button.addEventListener("click", () => {
+      //Prompt user if they confirm their deletion
       const deleteConfirm = confirm(
         "Are you sure you want to delete this prescription?"
       );
 
+      //If deleteConfirm is true
+      //We get get data-id attribute from prescriptionId and create a backEndPoint with it
       if (deleteConfirm) {
         const prescriptionId = button.getAttribute("data-id");
 
         const backEndPoint = `/${prescriptionId}`;
         console.log("Backend Endpoint:" + backEndPoint);
 
+        //We then send delete fetch request to our created backEndPoint URL
         fetch(backEndPoint, {
           method: "DELETE",
         })
           .then((response) => {
             if (response.ok) {
+              //If reponse received is ok then we log that it was successfull and we redirect to prescriptions again
               console.log(`Successfully Deleted Prescription`);
               window.location.href = "prescriptions";
             }
           })
           .catch((error) =>
+            //Error handling
             console.log(`Error occurred while deleting Prescription. ${error}`)
           );
       } else {
+        //If user cancels deleteConfirm then we log it
         console.log("Deletion Cancelled");
       }
     });

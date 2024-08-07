@@ -128,16 +128,20 @@ app.get("/details", async (req, res) => {
         boole = false;
         UserDetails = {};
       }
+      //If not a logedIn user method
     } else if (!loggedIn) {
       boole = false;
+      //If a signed-up user get his signed up details from sign-up page
       UserDetails = await prescriptions.Patient.findOne({
         PatientName: signUp.PatientName,
       });
 
+      //If UserDetails are not empty add this information to variables
       if (UserDetails) {
         message1 = "If You Are a First Time Patient, Please fill out the ";
         message2 = "Personal Details Form Here.";
         boole = false;
+        //If not add Error message to page
       } else {
         message1 = "Error";
         message2 = "";
@@ -146,8 +150,10 @@ app.get("/details", async (req, res) => {
       }
     }
 
+    //UserDetails check if they are not empty
     console.log(UserDetails);
 
+    //rendering response with variables
     res.render("details", {
       message1: message1,
       message2: message2,
@@ -155,19 +161,26 @@ app.get("/details", async (req, res) => {
       UserDetails: UserDetails,
     });
   } catch (error) {
+    //Error checking
     console.log(`An ${error} has occured`);
   }
 });
 
+//Getting update page
 app.get("/update", (req, res) => {
-  res.render("update"); //root: __dirname is our specific relative path to our file
+  //rendering update page
+  res.render("update");
 });
 
+//getting user details information
 app.get("/user-details", (req, res) => {
+  //Checking if logged in and user name is present
   if (loggedIn && user) {
+    //getting patient information
     prescriptions.Patient.findOne({ PatientName: user })
       .then((result) => res.json(result))
       .catch((error) => console.log(error));
+    //If not logged in but has signed-up sending info from sign-up page. Rest is 'not found'
   } else if (!loggedIn && signUp) {
     const message = {
       PatientName: signUp.PatientName,
@@ -278,11 +291,12 @@ app.post("/sign-up", async (req, res) => {
  *
 
 ***************************/
-
+//Updating user information
 app.post("/update", async (req, res) => {
   const userData = req.body;
   console.log("Received data:", userData); // Log received data for debugging
 
+  //Creating fileds to be updated
   const updatedFields = {
     PatientName: userData.patientName,
     Email: userData.email,
@@ -296,6 +310,7 @@ app.post("/update", async (req, res) => {
     Address: userData.address,
   };
 
+  //Checking if loggeIn and user name is present then we update the patients information and send response in json back
   if (loggedIn && user) {
     await prescriptions.Patient.updateOne(
       { PatientName: user },
@@ -308,6 +323,7 @@ app.post("/update", async (req, res) => {
       });
   }
 
+  //If not loggedIn then we create a new patient and save them
   if (!loggedIn) {
     const newPatient = new prescriptions.Patient(updatedFields);
     newPatient
@@ -319,6 +335,7 @@ app.post("/update", async (req, res) => {
         res.json({ success: true, data: result });
       })
       .catch((error) => {
+        //Error handling. Sending false for success message back to frontend
         console.error("Error saving data:", error);
         res.json({ success: false, error: error.message });
       });
@@ -340,27 +357,37 @@ app.post("/update", async (req, res) => {
  *
 
 ***************************/
+//Deleting prescription based on id
 app.delete("/:id", async (req, res) => {
   try {
+    //Getting id parameter property of id thats at the end of our passed url. Assigning it to id variable
     const id = req.params.id;
+    //Checking what it looks like
     console.log("Prescription ID:" + id);
 
+    //checking if the id received is in valid mongoose format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       console.log("Invalid ID format");
     }
 
+    //Deleting Prescription by ID and saving it to results
     const result = await prescriptions.Prescription.findByIdAndDelete(id);
 
+    //If have a result
     if (result) {
+      //getting other prescriptions after deletion
       const updatedPrescription = await prescriptions.Prescription.find({
         PatientName: user,
       });
 
+      //rendering prescription page with updatred list of prescriptions
       res.render("prescriptions", { prescriptions: updatedPrescription });
     } else {
+      //Messageto check if there were no prescriptions with provided id
       console.log("No Prescriptions found with this id");
     }
   } catch (error) {
+    //Error handling
     console.log(`Error occured while deleting prescription. Error: ${error}`);
   }
 });
@@ -380,12 +407,16 @@ app.delete("/:id", async (req, res) => {
  *
 
 ***************************/
-
+//Deleting Patient based on ID
 app.delete("/user-details/:id", (req, res) => {
+  //Getting ID parameters from passed URL
   const id = req.params.id;
 
+  //Checking what we received
   console.log("ID is:" + id);
 
+  //trying to delete patient based on id
+  //then sending res.json message if successful
   try {
     prescriptions.Patient.findByIdAndDelete(id)
       .then((result) => {
@@ -399,29 +430,6 @@ app.delete("/user-details/:id", (req, res) => {
   } catch (error) {
     console.log(`Error occured while attempting to delete. ${error}`);
   }
-
-  /*
-  if (loggedIn && user) {
-    prescriptions.Patient.findOneAndDelete({ PatientName: user.PatienName })
-      .then(() => res.json({ message: "Details deleted successfully." }))
-      .catch((error) => console.log(error));
-  } else if (!loggedIn) {
-    res
-      .json({ message: "User doesnt exist" })
-      .catch((error) => console.log(error));
-
-  }
-*/
-  /*
-  prescriptions.Patient.findOneAndDelete()
-    .then(() => res.json({ message: "Details deleted successfully." }))
-    .catch((error) => console.log(error));
-*/
-  /*
-  Detail.findOneAndDelete()
-    .then(() => res.json({ message: "Details deleted successfully." }))
-    .catch((error) => console.log(error));
-    */
 });
 
 /*************************
@@ -434,5 +442,5 @@ app.delete("/user-details/:id", (req, res) => {
 
 //404 page, app.use(), must be added to the last as it will only execute if no other  conditions are met before that.
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).render("404", { title: "404" });
 });
