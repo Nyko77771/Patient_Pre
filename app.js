@@ -126,7 +126,7 @@ app.get("/details", async (req, res) => {
         //else if he does not then provide another data
       }
       //If not a logedIn user method
-    } else if (!loggedIn) {
+    } else if (!loggedIn && user) {
       boole = false;
       //If a signed-up user get his signed up details from sign-up page
       UserDetails = await prescriptions.Patient.findOne({
@@ -139,12 +139,9 @@ app.get("/details", async (req, res) => {
         message2 = "Personal Details Form Here.";
         boole = false;
         //If not add Error message to page
-      } else {
-        message1 = "";
-        message2 = "";
-        boole = false;
-        UserDetails = {};
       }
+    } else if (user === null) {
+      return res.redirect("404");
     }
 
     //UserDetails check if they are not empty
@@ -421,6 +418,7 @@ app.delete("/user-details/:id", (req, res) => {
     prescriptions.Patient.findByIdAndDelete(id)
       .then((result) => {
         if (result) {
+          user = null;
           res.json({ message: "Details deleted successfully." });
         } else {
           res.json({ message: "Patient not found" });
