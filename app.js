@@ -126,7 +126,7 @@ app.get("/details", async (req, res) => {
         //else if he does not then provide another data
       }
       //If not a logedIn user method
-    } else if (!loggedIn && user) {
+    } else if (!loggedIn) {
       boole = false;
       //If a signed-up user get his signed up details from sign-up page
       UserDetails = await prescriptions.Patient.findOne({
