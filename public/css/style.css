@@ -21,7 +21,7 @@ body {
   max-width: 450px;
   min-width: 400px;
   min-height: 250px;
-  max-height: 1200px;
+  max-height: 900px;
   background-color: aliceblue;
   padding: 40px 60px 60px;
   text-align: center;
@@ -188,8 +188,8 @@ For tooltip and tooltiptext styling refered to:
 .preSummary {
   background-color: #fff;
   width: 100%;
-  min-height: 800px;
-  max-width: 1400px;
+  min-height: 480px;
+  max-width: 1200px;
   min-width: 200px;
   margin-top: 150px;
   border-radius: 8%;
@@ -518,10 +518,9 @@ nav div button:hover {
 /* Additional Styling */
 .signUpBox2 {
   width: 50%;
-  max-width: 450px;
+  max-width: 1500px;
   min-width: 400px;
-  min-height: 250px;
-  max-height: 1085px;
+  max-height: 700px;
   background-color: aliceblue;
   padding: 30px 50px 50px;
   text-align: center;

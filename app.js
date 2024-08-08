@@ -306,6 +306,13 @@ app.post("/update", async (req, res) => {
 
   //Checking if loggeIn and user name is present then we update the patients information and send response in json back
   if (loggedIn && user) {
+    //But First we update prescriptions of old user to an updated user
+
+    await prescriptions.Prescription.updateMany(
+      { PatientName: user },
+      { $set: { PatientName: userData.patientName } }
+    );
+
     updatedPatient = await prescriptions.Patient.updateOne(
       { PatientName: user },
       { $set: updatedFields }
